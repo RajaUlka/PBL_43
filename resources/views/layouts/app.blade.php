@@ -17,6 +17,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
+    
     <body class="font-sans antialiased">
         <x-banner />
 
@@ -34,12 +35,15 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
-            </main>
+    {{ $slot }}
+</main>
+
         </div>
 
         @stack('modals')
 
         @livewireScripts
+        @stack('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </body>
 </html>

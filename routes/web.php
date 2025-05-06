@@ -1,12 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Models\User;
+use App\Models\Alat;
+use App\Models\Laporan;
+use App\Http\Controllers\DashboardController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['auth', 'admin'])->get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
+Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
+Route::middleware(['auth', 'admin'])->get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+
+
+
+
+
 
 Route::get('/user', function () {
     // Mengambil user dengan ID 1
