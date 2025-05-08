@@ -10,6 +10,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
     @include('components.public-navigation')
+    
 
     <main class="py-8">
         @yield('content')
