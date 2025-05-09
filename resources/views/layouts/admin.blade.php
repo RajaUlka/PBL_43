@@ -8,21 +8,36 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="bg-gray-100">
     <div class="flex">
-        <!-- Side Navigation (Hamburger) -->
-        <div class="flex flex-col w-64 bg-gray-800 p-4">
-            <h2 class="text-white text-lg font-semibold mb-6">Admin Dashboard</h2>
-            <ul>
-                <!-- Rute kosong untuk sementara -->
-                <li><a href="#" class="text-white hover:bg-gray-700 px-4 py-2 block">Dashboard</a></li>
-                <li><a href="#" class="text-white hover:bg-gray-700 px-4 py-2 block">User</a></li>
-                <li><a href="#" class="text-white hover:bg-gray-700 px-4 py-2 block">Data Alat</a></li>
-                <li><a href="#" class="text-white hover:bg-gray-700 px-4 py-2 block">Daftar Alat</a></li>
-                <li><a href="#" class="text-white hover:bg-gray-700 px-4 py-2 block">Laporan User</a></li>
-            </ul>
-        </div>
+       <!-- Sidebar -->
+<div class="flex flex-col w-64 min-h-screen bg-gray-900 text-white p-5">
+    <h1 class="text-xl font-abold mb-6">Admin Panel</h1>
+    <nav class="space-y-2">
+        <a href="{{ route('dashboard') }}"
+           class="{{ request()->routeIs('dashboard') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-700">
+            Dashboard
+        </a>
+        <a href="{{ route('user.index') }}"
+           class="{{ request()->routeIs('user.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-700">
+            User
+        </a>
+        <a href="{{ route('data-alat.index') }}"
+           class="{{ request()->routeIs('data-alat.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-700">
+            Data Alat
+        </a>
+        <a href="{{ route('daftar-alat.index') }}"
+           class="{{ request()->routeIs('daftar-alat.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-700">
+            Daftar Alat
+        </a>
+        <a href="{{ route('laporan-user.index') }}"
+           class="{{ request()->routeIs('laporan-user.index') ? 'bg-gray-700' : '' }} block px-4 py-2 rounded hover:bg-gray-700">
+            Laporan User
+        </a>
+    </nav>
+</div>
 
         <!-- Main Content Area -->
         <div class="flex-1 p-6">
@@ -157,5 +172,6 @@
             @yield('content')
         </div>
     </div>
+    @livewireScripts
 </body>
 </html>

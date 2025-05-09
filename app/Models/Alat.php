@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alat extends Model
 {
-    protected $table = 'alat';
+    protected $table = 'alat';  // Nama tabel harus 'alat'
 
     protected $fillable = ['alat_id', 'lat', 'lng'];
     

@@ -15,7 +15,7 @@ use App\Http\Middleware\IsAdmin;
 
 
 Route::get('/', [PublicPageController::class, 'index'])->name('public.home');
-
+Route::get('/laporan-user', \App\Livewire\Admin\LaporanIndex::class)->name('laporan-user.index');
 Route::middleware(['auth', IsAdmin::class])->get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
 
 Route::middleware(['auth', AdminMiddleware::class])
@@ -60,8 +60,8 @@ Route::middleware(['auth', AdminMiddleware::class])
         return view('admin.laporan-user');  // View untuk Laporan User
     })->name('laporan-user.index');
 
-    Route::get('/user', function () {
-        $user = User::find(1);
-        return view('user.index', ['user' => $user]);
-    })->name('user.index');
+    //Route::get('/user', function () {
+        //$user = User::find(1);
+        //return view('user.index', ['user' => $user]);
+    //})->name('user.index');
     
