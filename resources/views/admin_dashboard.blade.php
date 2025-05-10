@@ -16,39 +16,38 @@
         <!-- Map -->
         <div class="bg-white p-4 rounded shadow">
             <h3 class="font-semibold mb-2">Maps</h3>
-            <div id="map" class="w-full h-40 bg-gray-200 rounded"></div>
+            <div id="map" class="w-full h-96 bg-gray-200 rounded"></div>
         </div>
     </div>
 
     <!-- Statistik Kotak -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="flex flex-row space-x-4 justify-center mt-8">
-    <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
-        <div class="text-center">
-            <p class="text-xl font-bold">{{ $jumlahUser }}</p>
-            <p class="text-sm">User Teknisi</p>
+        <div class="flex flex-row space-x-4 justify-center mt-8">
+            <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
+                <div class="text-center">
+                    <p class="text-xl font-bold">{{ $jumlahUser }}</p>
+                    <p class="text-sm">User Teknisi</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
+                <div class="text-center">
+                    <p class="text-xl font-bold">{{ $jumlahLaporan }}</p>
+                    <p class="text-sm">Data Terlapor</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
+                <div class="text-center">
+                    <p class="text-xl font-bold">{{ $laporanSelesai }}</p>
+                    <p class="text-sm">Laporan Selesai</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
+                <div class="text-center">
+                    <p class="text-xl font-bold">{{ $laporanBelum }}</p>
+                    <p class="text-sm">Belum Selesai</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
-        <div class="text-center">
-            <p class="text-xl font-bold">{{ $jumlahLaporan }}</p>
-            <p class="text-sm">Data Terlapor</p>
-        </div>
-    </div>
-    <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
-        <div class="text-center">
-            <p class="text-xl font-bold">{{ $laporanSelesai }}</p>
-            <p class="text-sm">Laporan Selesai</p>
-        </div>
-    </div>
-    <div class="bg-white rounded-full w-40 h-40 flex items-center justify-center shadow-md">
-        <div class="text-center">
-            <p class="text-xl font-bold">{{ $laporanBelum }}</p>
-            <p class="text-sm">Belum Selesai</p>
-        </div>
-    </div>
-</div>
-
     </div>
 </div>
 
@@ -79,4 +78,26 @@
         }
     });
 </script>
+
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inisialisasi peta di Batam
+            var map = L.map('map').setView([1.0456, 104.0305], 12); // Koordinat Batam
+
+            // Tambahkan layer tile dari OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Tambahkan marker di lokasi Batam
+            L.marker([1.0456, 104.0305])
+                .addTo(map)
+                .bindPopup('<b>Lokasi Sensor</b><br>Batam, Kepri')
+                .openPopup();
+        });
+    </script>
+
+@endpush
