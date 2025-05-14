@@ -8,8 +8,12 @@ use App\Models\Alat;
 use App\Models\Laporan;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\IsAdmin;
+use App\Livewire\LaporanForm;
+use App\Livewire\CekLaporan;
+
 
 
 
@@ -22,8 +26,23 @@ Route::middleware(['auth', AdminMiddleware::class])
     ->get('/admin', [DashboardController::class, 'adminDashboard'])
     ->name('admin.dashboard');
 
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+        Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    });
 
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+        Route::get('/laporan/create', function () {
+            return view('user.buatlaporan');
+        })->name('laporan.create');
+    
+        Route::get('/laporan/cek', function () {
+            return view('user.ceklaporan');
+        })->name('laporan.cek');
+    });
 
+    Route::get('/laporan/create', fn () => view('user.buatlaporan'))->name('laporan.create');
+    Route::get('/laporan/cek', fn () => view('user.ceklaporan'))->name('laporan.cek');
+    
 
     Route::middleware([
         'auth:sanctum',

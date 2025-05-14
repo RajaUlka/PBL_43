@@ -5,17 +5,20 @@
 
     <table class="min-w-full bg-white border border-gray-300">
         <thead>
-            <tr class="bg-gray-100">
-                <th class="py-2 px-4 border-b">#</th>
-                <th class="py-2 px-4 border-b">Nama</th>
-                <th class="py-2 px-4 border-b">No HP</th>
-                <th class="py-2 px-4 border-b">Kendala</th>
-                <th class="py-2 px-4 border-b">Lokasi</th>
-                <th class="py-2 px-4 border-b">Status</th>
-                <th class="py-2 px-4 border-b">ID Tiket</th>
-                <th class="py-2 px-4 border-b">Aksi</th>
-            </tr>
+        <tr class="bg-gray-100">
+            <th class="py-2 px-4 border-b">#</th>
+            <th class="py-2 px-4 border-b">Nama</th>
+            <th class="py-2 px-4 border-b">No HP</th>
+            <th class="py-2 px-4 border-b">Kendala</th>
+            <th class="py-2 px-4 border-b">Lokasi</th>
+            <th class="py-2 px-4 border-b">Lat</th>
+            <th class="py-2 px-4 border-b">Lng</th>
+            <th class="py-2 px-4 border-b">Status</th>
+            <th class="py-2 px-4 border-b">ID Tiket</th>
+            <th class="py-2 px-4 border-b">Aksi</th>
+        </tr>
         </thead>
+
         <tbody>
             @foreach ($laporans as $index => $laporan)
             <tr wire:key="laporan-{{ $laporan->id }}">
@@ -24,6 +27,8 @@
                     <td class="py-2 px-4 border-b">{{ $laporan->no_hp }}</td>
                     <td class="py-2 px-4 border-b">{{ $laporan->kendala }}</td>
                     <td class="py-2 px-4 border-b">{{ $laporan->lokasi }}</td>
+                    <td class="py-2 px-4 border-b">{{ $laporan->latitude }}</td>
+                    <td class="py-2 px-4 border-b">{{ $laporan->longitude }}</td>
                     <td class="py-2 px-4 border-b">{{ ucfirst($laporan->status) }}</td>
                     <td class="py-2 px-4 border-b">{{ $laporan->id_ticket }}</td>
                     <td class="py-2 px-4 border-b">
