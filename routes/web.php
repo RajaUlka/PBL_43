@@ -79,6 +79,8 @@ Route::middleware(['auth', AdminMiddleware::class])
         return view('admin.laporan-user');  // View untuk Laporan User
     })->name('laporan-user.index');
 
+
+
     //Route::get('/user', function () {
         //$user = User::find(1);
         //return view('user.index', ['user' => $user]);

@@ -23,9 +23,14 @@ class DashboardController extends Controller
         $laporanSelesai = Laporan::where('status', 'selesai')->count();
         $laporanBelum = Laporan::where('status', '!=', 'selesai')->count();
 
+        $lokasiLaporan = Laporan::select('id', 'latitude', 'longitude', 'kendala')
+        ->whereNotNull('latitude')
+        ->whereNotNull('longitude')
+        ->get();
+
         return view('admin_dashboard', compact(
             'labels', 'phData', 'kekeruhanData',
-            'jumlahUser', 'jumlahLaporan', 'laporanSelesai', 'laporanBelum'
+            'jumlahUser', 'jumlahLaporan', 'laporanSelesai', 'laporanBelum', 'lokasiLaporan'
         ));
     }
 }

@@ -9,7 +9,7 @@ class DataAlat extends Model
 {
     protected $table = 'data_alat';
 
-    protected $fillable = ['alat_id', 'ph', 'kekeruhan'];
+    protected $fillable = ['alat_id', 'ph', 'kekeruhan', 'status_air'];
 
     public function alat()
     {

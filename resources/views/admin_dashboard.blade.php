@@ -84,20 +84,24 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Inisialisasi peta di Batam
-            var map = L.map('map').setView([1.0456, 104.0305], 12); // Koordinat Batam
+            var map = L.map('map').setView([1.0456, 104.0305], 12);
 
-            // Tambahkan layer tile dari OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Tambahkan marker di lokasi Batam
-            L.marker([1.0456, 104.0305])
-                .addTo(map)
-                .bindPopup('<b>Lokasi Sensor</b><br>Batam, Kepri')
-                .openPopup();
+            // Ambil data dari Laravel (tabel laporan)
+            var lokasiLaporan = @json($lokasiLaporan);
+
+            lokasiLaporan.forEach(function(laporan) {
+                if (laporan.latitude && laporan.longitude) {
+                    L.marker([laporan.latitude, laporan.longitude])
+                        .addTo(map)
+                        .bindPopup('<b>' + laporan.kendala + '</b><br>ID: ' + laporan.id);
+                }
+            });
+
         });
     </script>
-
 @endpush
+

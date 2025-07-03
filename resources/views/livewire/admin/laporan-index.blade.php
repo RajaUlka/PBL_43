@@ -43,7 +43,7 @@
                             <button wire:click="$set('editId', null)" class="bg-gray-500 text-white px-2 py-1 rounded text-sm">Batal</button>
                         @else
                             <button wire:click="startEdit({{ $laporan->id }})" class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Edit</button>
-                            <button wire:click="delete({{ $laporan->id }})" onclick="return confirm('Yakin ingin hapus laporan ini?')" class="bg-red-500 text-white px-2 py-1 rounded text-sm">Hapus</button>
+                            {{-- <button wire:click="delete({{ $laporan->id }})" onclick="return confirm('Yakin ingin hapus laporan ini?')" class="bg-red-500 text-white px-2 py-1 rounded text-sm">Hapus</button> --}}
                         @endif
                     </td>
                 </tr>
