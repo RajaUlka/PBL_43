@@ -9,6 +9,7 @@ use App\Models\Laporan;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\DataAlatController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\IsAdmin;
 use App\Livewire\LaporanForm;
@@ -21,6 +22,8 @@ use App\Livewire\CekLaporan;
 Route::get('/', [PublicPageController::class, 'index'])->name('public.home');
 Route::get('/laporan-user', \App\Livewire\Admin\LaporanIndex::class)->name('laporan-user.index');
 Route::middleware(['auth', IsAdmin::class])->get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+//Route::get('/admin/dashboard', [DataAlatController::class, 'grafikData'])->name('admin.dashboard');
+
 
 Route::middleware(['auth', AdminMiddleware::class])
     ->get('/admin', [DashboardController::class, 'adminDashboard'])
