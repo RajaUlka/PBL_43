@@ -6,86 +6,65 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Alat;
 use App\Models\Laporan;
+
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\DataAlatController;
+
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\IsAdmin;
+
 use App\Livewire\LaporanForm;
 use App\Livewire\CekLaporan;
+use Laravel\Jetstream\Http\Controllers\ProfileController;
 
-
-
-
-
+// 🔓 Halaman publik
 Route::get('/', [PublicPageController::class, 'index'])->name('public.home');
-Route::get('/laporan-user', \App\Livewire\Admin\LaporanIndex::class)->name('laporan-user.index');
+
+// 🧑 Auth + Role: Admin
 Route::middleware(['auth', IsAdmin::class])->get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
-//Route::get('/admin/dashboard', [DataAlatController::class, 'grafikData'])->name('admin.dashboard');
 
+// 📊 Admin dashboard dengan middleware khusus
+Route::middleware(['auth', AdminMiddleware::class])->get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
 
-Route::middleware(['auth', AdminMiddleware::class])
-    ->get('/admin', [DashboardController::class, 'adminDashboard'])
-    ->name('admin.dashboard');
+// ✅ Authenticated + Verified group (Jetstream)
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-        Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-    });
+    // Role-based dashboard redirection
+    Route::get('/dashboard', function () {
+        $user = Auth::user();
 
-    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-        Route::get('/laporan/create', function () {
-            return view('user.buatlaporan');
-        })->name('laporan.create');
-    
-        Route::get('/laporan/cek', function () {
-            return view('user.ceklaporan');
-        })->name('laporan.cek');
-    });
+        if ($user->role === 'admin' || $user->role === 'teknisi') {
+            return redirect()->route('admin.dashboard');
+        }
 
+        return redirect()->route('user.dashboard');
+    })->name('dashboard');
+
+    // Halaman dashboard user
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
+    // Halaman profile Jetstream
+    Route::get('/user/profile', function () {
+        return view('profile.show');
+    })->name('profile.show');
+
+    // Halaman laporan
     Route::get('/laporan/create', fn () => view('user.buatlaporan'))->name('laporan.create');
     Route::get('/laporan/cek', fn () => view('user.ceklaporan'))->name('laporan.cek');
-    
+});
 
-    Route::middleware([
-        'auth:sanctum',
-        config('jetstream.auth_session'),
-        'verified',
-    ])->group(function () {
-        Route::get('/dashboard', function () {
-            $user = Auth::user();
-    
-            // Arahkan sesuai role
-            if ($user->role === 'admin' || $user->role === 'teknisi') {
-                return redirect()->route('admin.dashboard');
-            }
-    
-            // Kalau role lain (misal: masyarakat), redirect ke dashboard user biasa
-            return redirect()->route('user.dashboard');
-        })->name('dashboard');
-    });
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::view('/profile', 'profile.show')->name('profile.show');
+});
 
-    
-    Route::get('/user', function () {
-        return view('admin.user');  // View untuk halaman User
-    })->name('user.index');
-    
-    Route::get('/data-alat', function () {
-        return view('admin.data-alat');  // View untuk halaman Data Alat
-    })->name('data-alat.index');
-    
-    Route::get('/daftar-alat', function () {
-        return view('admin.daftar-alat');  // View untuk Daftar Alat
-    })->name('daftar-alat.index');
-    
-    Route::get('/laporan-user', function () {
-        return view('admin.laporan-user');  // View untuk Laporan User
-    })->name('laporan-user.index');
-
-
-
-    //Route::get('/user', function () {
-        //$user = User::find(1);
-        //return view('user.index', ['user' => $user]);
-    //})->name('user.index');
-    
+// 📦 Halaman admin static (user, alat, laporan)
+Route::get('/user', fn () => view('admin.user'))->name('user.index');
+Route::get('/data-alat', fn () => view('admin.data-alat'))->name('data-alat.index');
+Route::get('/daftar-alat', fn () => view('admin.daftar-alat'))->name('daftar-alat.index');
+Route::get('/laporan-user', fn () => view('admin.laporan-user'))->name('laporan-user.index');

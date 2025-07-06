@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Sistem Kualitas Air') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="bg-gray-100 font-sans antialiased">
     <!-- Navbar -->
@@ -29,5 +30,7 @@
     <div class="min-h-screen flex flex-col items-center justify-center">
         {{ $slot }}
     </div>
+    @livewireScripts
+
 </body>
 </html>

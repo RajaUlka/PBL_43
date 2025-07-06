@@ -32,6 +32,7 @@ class DataAlatController extends Controller
             'alat_id' => $validated['alat_id'],
             'ph' => $ph,
             'kekeruhan' => $kekeruhan,
+            'tds' => $tds,
             'status_air' => $status,
         ]);
     
@@ -40,6 +41,17 @@ class DataAlatController extends Controller
             'data' => $data
         ], 201);
     }
+
+    public function index()
+{
+    $data = \App\Models\DataAlat::orderBy('created_at', 'desc')->get();
+
+    return response()->json([
+        'message' => 'Data berhasil diambil',
+        'data' => $data
+    ]);
+}
+
 
     
 }
