@@ -9,10 +9,10 @@ class Alat extends Model
 {
     protected $table = 'alat';  // Nama tabel harus 'alat'
 
-    protected $fillable = ['alat_id', 'lat', 'lng'];
+    protected $fillable = ['nama_alat', 'lat', 'lng'];
     
     public function dataAlat()
     {
-        return $this->hasMany(DataAlat::class, 'alat_id', 'alat_id');
+        return $this->hasMany(DataAlat::class, 'alat_id', 'id');
     }
 }

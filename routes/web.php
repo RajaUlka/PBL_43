@@ -68,3 +68,9 @@ Route::get('/user', fn () => view('admin.user'))->name('user.index');
 Route::get('/data-alat', fn () => view('admin.data-alat'))->name('data-alat.index');
 Route::get('/daftar-alat', fn () => view('admin.daftar-alat'))->name('daftar-alat.index');
 Route::get('/laporan-user', fn () => view('admin.laporan-user'))->name('laporan-user.index');
+
+Route::middleware(['auth', AdminMiddleware::class])
+    ->get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])
+    ->name('dashboard.chart.data');
+
+

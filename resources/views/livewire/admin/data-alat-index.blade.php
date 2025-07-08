@@ -12,9 +12,10 @@
             <thead class="bg-gray-100 text-gray-700">
                 <tr>
                     <th class="py-2 px-4 border-b">#</th>
-                    <th class="py-2 px-4 border-b">Alat ID</th>
+                    <th class="py-2 px-4 border-b">Nama Alat</th>
                     <th class="py-2 px-4 border-b">pH</th>
                     <th class="py-2 px-4 border-b">Kekeruhan</th>
+                    <th class="py-2 px-4 border-b">TDS</th>
                     <th class="py-2 px-4 border-b">Status Air</th>
                     <th class="py-2 px-4 border-b">Aksi</th>
                 </tr>
@@ -23,9 +24,10 @@
                 @foreach($dataAlat as $index => $data)
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b">{{ $index + 1 }}</td>
-                        <td class="py-2 px-4 border-b">{{ $data->alat_id }}</td>
+                        <td class="py-2 px-4 border-b">{{ $data->alat->nama_alat ?? '-' }}</td>
                         <td class="py-2 px-4 border-b">{{ $data->ph }}</td>
                         <td class="py-2 px-4 border-b">{{ $data->kekeruhan }}</td>
+                        <td class="py-2 px-4 border-b">{{ $data->tds }}</td>
                         <td class="py-2 px-4 border-b">
                             <span class="{{ $data->status_air == 'layak' ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold' }}">
                                 {{ ucfirst($data->status_air) }}
@@ -57,9 +59,9 @@
                     <div>
                         <label class="block text-sm mb-1">Pilih Alat</label>
                         <select wire:model="alat_id" class="w-full border rounded px-2 py-1">
-                            <option value="">-- Pilih Alat --</option>
-                            @foreach($alats as $alat)
-                                <option value="{{ $alat->alat_id }}">{{ $alat->alat_id }}</option>
+                            <option value="">Pilih Alat</option>
+                            @foreach ($alats as $alat)
+                                <option value="{{ $alat->id }}">{{ $alat->nama_alat }}</option>
                             @endforeach
                         </select>
                         @error('alat_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -76,6 +78,12 @@
                         <input wire:model="kekeruhan" type="number" step="0.01" placeholder="Kekeruhan" class="w-full border rounded px-2 py-1">
                         @error('kekeruhan') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
+
+                    <div>
+                        <label class="block text-sm mb-1">TDS</label>
+                        <input wire:model="tds" type="number" step="0.01" placeholder="TDS" class="w-full border rounded px-2 py-1">
+                        @error('tds') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-2">
@@ -88,7 +96,7 @@
                             Tambah
                         </button>
                     @endif
-                    <button wire:click="resetForm" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    <button wire:click="cancel" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                         Cancel
                     </button>
                 </div>

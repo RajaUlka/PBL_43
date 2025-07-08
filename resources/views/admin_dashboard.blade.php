@@ -52,59 +52,32 @@
 </div>
 
 <script>
-    const labels = @json($labels ?? []);
-    const phData = @json($phData ?? []);
-    const kekeruhanData = @json($kekeruhanData ?? []);
-    const layakFlags = @json($layakFlags ?? []);
+const ctx = document.getElementById('sensorChart').getContext('2d');
 
-    const ctx = document.getElementById('sensorChart').getContext('2d');
-    
-
-const backgroundColors = layakFlags.map(flag => {
-    return flag ? 'rgba(75, 192, 192, 0.2)' : 'rgba(255, 99, 132, 0.3)'; // hijau atau merah
-});
-
-new Chart(ctx, {
+let chart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: labels,
-        datasets: [
-            {
-                label: 'pH',
-                data: phData,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: backgroundColors,
-                fill: true,
-                tension: 0.3,
-                pointRadius: 4,
-                pointBackgroundColor: backgroundColors,
-            },
-            {
-                label: 'Kekeruhan',
-                data: kekeruhanData,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                backgroundColor: backgroundColors,
-                fill: false,
-                tension: 0.3,
-                pointRadius: 4,
-                pointBackgroundColor: backgroundColors,
-            }
-        ]
+        labels: @json($labels),
+        datasets: formatDatasets(@json($datasets))
     },
     options: {
         plugins: {
             title: {
                 display: true,
-                text: 'Grafik pH & Kekeruhan Air (24 Jam Terakhir)'
+                text: 'Grafik pH & Kekeruhan per Alat (6 Jam Terakhir)'
             },
             tooltip: {
                 callbacks: {
                     label: function(context) {
-                        let label = context.dataset.label + ': ' + context.formattedValue;
-                        let index = context.dataIndex;
-                        return label + (layakFlags[index] ? ' (Layak)' : ' (Tidak Layak)');
+                        const flag = context.dataset.layak_flags?.[context.dataIndex];
+                        const status = flag === 1 ? ' (Layak)' : (flag === 0 ? ' (Tidak Layak)' : '');
+                        return `${context.dataset.label}: ${context.formattedValue}${status}`;
                     }
                 }
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
             }
         },
         scales: {
@@ -114,12 +87,43 @@ new Chart(ctx, {
                     display: true,
                     text: 'Nilai Sensor'
                 }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Waktu (Jam:Menit)'
+                }
             }
         }
     }
 });
 
+function formatDatasets(raw) {
+    return raw.map(dataset => ({
+        ...dataset,
+        pointBackgroundColor: (ctx) => {
+            const index = ctx.dataIndex;
+            const flag = dataset.layak_flags?.[index];
+            if (flag === 1) return 'rgba(75, 192, 192, 1)';
+            if (flag === 0) return 'rgba(255, 99, 132, 1)';
+            return 'gray';
+        },
+        pointRadius: 4
+    }));
+}
+
+// Auto refresh grafik setiap 10 detik
+setInterval(() => {
+    fetch('/dashboard/chart-data')
+        .then(response => response.json())
+        .then(data => {
+            chart.data.labels = data.labels;
+            chart.data.datasets = formatDatasets(data.datasets);
+            chart.update();
+        });
+}, 10000); // 10 detik
 </script>
+
 
 @endsection
 
