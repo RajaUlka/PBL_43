@@ -4,33 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Sistem Kualitas Air') }}</title>
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+
+    <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Livewire Styles -->
     @livewireStyles
 </head>
-<body class="bg-gray-100 font-sans antialiased">
-    <!-- Navbar -->
-    <nav class="bg-white shadow mb-8">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-800 hover:text-indigo-600">
-                Sistem Kualitas Air
+<!-- bg (semisal gak pake bg foto pake ini) -->
+ <body class="bg-gray-100 font-sans antialiased min-h-screen flex flex-col">
+
+<!-- bg (ini kalo pake bg) -->
+ <!--<body class="bg-center bg-cover font-sans antialiased min-h-screen flex flex-col" style="background-image: url('{{ asset('image/bg-login.jpg') }}')"> -->
+
+
+    <!-- Navbar (mengikuti struktur layout main) -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="{{ url('/') }}" class="flex items-center">
+                <img src="{{ asset('image/logo-admin.png') }}" alt="Logo Sistem Monitoring Air" class="h-10 mr-2">
+                <span class="text-xl font-bold text-blue-600">Sistem Monitoring Air</span>
             </a>
-            <div class="space-x-4">
-                <a href="{{ url('/') }}" class="text-gray-600 hover:text-indigo-600 text-sm">Beranda</a>
+
+            <!-- Menu Navigasi -->
+            <nav class="flex space-x-6 items-center">
+                <a href="{{ url('/') }}" class="text-gray-700 hover:text-blue-600 font-medium">
+                    Beranda
+                </a>
+
                 @auth
-                    <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-indigo-600 text-sm">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-blue-600 font-medium">
+                        Dashboard
+                    </a>
                 @else
-                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-indigo-600 text-sm">Login</a>
-                    <a href="{{ route('register') }}" class="text-gray-600 hover:text-indigo-600 text-sm">Register</a>
+                    <a href="{{ route('login') }}" class="text-blue-600 hover:underline font-medium">Masuk</a>
+                    <a href="{{ route('register') }}" class="ml-2 bg-blue-600 text-white px-4 py-1.5 rounded hover:bg-blue-700 font-medium">Daftar</a>
                 @endauth
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Page Content -->
-    <div class="min-h-screen flex flex-col items-center justify-center">
+    <!-- Konten Halaman -->
+    <main class="flex-grow flex flex-col items-center justify-center">
         {{ $slot }}
-    </div>
-    @livewireScripts
+    </main>
 
+    <!-- Footer opsional jika ingin ditambahkan -->
+    <footer class="bg-white border-t text-center text-sm text-gray-500 py-4">
+        &copy; {{ date('Y') }} Sistem Monitoring Air. Hak cipta dilindungi.
+    </footer>
+
+    @livewireScripts
 </body>
 </html>
