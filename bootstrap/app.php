@@ -12,13 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Tambahkan route middleware kustom di sini
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'isadmin' => \App\Http\Middleware\IsAdmin::class,
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
-
-    $app->routeMiddleware([
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-    ]);
-    
+    })
+    ->create();

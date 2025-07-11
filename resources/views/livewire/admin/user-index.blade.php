@@ -9,7 +9,7 @@
         <!-- Filter Role -->
         <div class="flex items-center space-x-4">
             <label for="filterRole" class="font-semibold text-gray-700">Filter Role:</label>
-            <select wire:model="filterRole" id="filterRole" class="border px-4 py-2 rounded-lg">
+            <select wire:model.live="filterRole" id="filterRole" class="border px-4 py-2 rounded-lg">
                 <option value="">-- Semua --</option>
                 <option value="admin">Admin</option>
                 <option value="user">User</option>

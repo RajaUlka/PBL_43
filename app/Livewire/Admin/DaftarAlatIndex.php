@@ -5,77 +5,69 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Alat;
 
+
 class DaftarAlatIndex extends Component
 {
-    public $alat_id, $lat, $lng;
+    public $nama_alat, $lat, $lng;
     public $editId = null;
-    public $showModal = false;  // Kontrol modal tampil atau tidak
+    public $showModal = false;
 
-    protected $rules = [
-        'alat_id' => 'required|string|unique:alat,alat_id,' .  // update jika edit
-        '$this->editId', // Exclude current edit record from validation
-    
-        'lat' => 'required|numeric',
-        'lng' => 'required|numeric',
-    ];
-
-    public function mount()
+    protected function rules()
     {
-        // setup awal, jika ada
+        return [
+            'nama_alat' => 'required|string|unique:alat,nama_alat,' . $this->editId,
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
+        ];
     }
 
     public function store()
     {
         $this->validate();
-    
+
         Alat::create([
-            'alat_id' => $this->alat_id,
+            'nama_alat' => $this->nama_alat,
             'lat' => $this->lat,
             'lng' => $this->lng,
         ]);
-    
+
         $this->resetForm();
-        $this->dispatch('refreshComponent');
-        $this->showModal = false;  // Menutup modal setelah tambah
     }
-    
 
     public function edit($id)
     {
-        $alat = Alat::find($id);
+        $alat = Alat::findOrFail($id);
         $this->editId = $alat->id;
-        $this->alat_id = $alat->alat_id;
+        $this->nama_alat = $alat->nama_alat;
         $this->lat = $alat->lat;
         $this->lng = $alat->lng;
-        
-        $this->showModal = true;  // Tampilkan modal saat edit
+        $this->showModal = true;
     }
 
     public function update()
     {
         $this->validate();
-    
-        $alat = Alat::find($this->editId);
+
+        $alat = Alat::findOrFail($this->editId);
         $alat->update([
-            'alat_id' => $this->alat_id,
+            'nama_alat' => $this->nama_alat,
             'lat' => $this->lat,
             'lng' => $this->lng,
         ]);
-    
+
         $this->resetForm();
-        $this->showModal = false;  // Menutup modal setelah update
     }
 
     public function delete($id)
     {
-        Alat::find($id)->delete();
+        Alat::findOrFail($id)->delete();
     }
+
     public function resetForm()
     {
-        $this->reset(['alat_id', 'lat', 'lng', 'editId']);
-        $this->showModal = false;  // Pastikan modal tertutup saat form reset
+        $this->reset(['nama_alat', 'lat', 'lng', 'editId']);
+        $this->showModal = false;
     }
-    
 
     public function render()
     {
@@ -83,7 +75,5 @@ class DaftarAlatIndex extends Component
         return view('livewire.admin.daftar-alat-index', compact('alats'));
     }
 }
-
-
 
 

@@ -12,7 +12,7 @@
             <thead class="bg-gray-100 text-xs font-semibold uppercase tracking-wider text-gray-600">
                 <tr>
                     <th class="px-4 py-3 border-b">No</th>
-                    <th class="px-4 py-3 border-b">Alat ID</th>
+                    <th class="px-4 py-3 border-b">Nama Alat</th>
                     <th class="px-4 py-3 border-b">Latitude</th>
                     <th class="px-4 py-3 border-b">Longitude</th>
                     <th class="px-4 py-3 border-b text-center">Aksi</th>
@@ -22,7 +22,7 @@
                 @foreach($alats as $index => $alat)
                     <tr class="hover:bg-gray-50 transition-colors duration-150">
                         <td class="px-4 py-2">{{ $index + 1 }}</td>
-                        <td class="px-4 py-2 font-medium">{{ $alat->alat_id }}</td>
+                        <td class="px-4 py-2 font-medium">{{ $alat->nama_alat }}</td>
                         <td class="px-4 py-2">{{ $alat->lat }}</td>
                         <td class="px-4 py-2">{{ $alat->lng }}</td>
                         <td class="px-4 py-2 text-center space-x-2">
@@ -48,8 +48,8 @@
 
                 <!-- Form Input Alat -->
                 <div class="mb-4">
-                    <input wire:model="alat_id" placeholder="Alat ID" class="border px-2 py-1 rounded w-full">
-                    @error('alat_id') <span class="text-red-500">{{ $message }}</span> @enderror
+                    <input wire:model="nama_alat" placeholder="Nama Alat" class="border px-2 py-1 rounded w-full">
+                    @error('nama_alat') <span class="text-red-500">{{ $message }}</span> @enderror
                     <input wire:model="lat" placeholder="Latitude" type="number" class="border px-2 py-1 rounded w-full">
                     @error('lat') <span class="text-red-500">{{ $message }}</span> @enderror
                     <input wire:model="lng" placeholder="Longitude" type="number" class="border px-2 py-1 rounded w-full">

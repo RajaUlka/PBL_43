@@ -120,8 +120,19 @@ class UserIndex extends Component
 
     public function render()
     {
-        return view('livewire.admin.user-index');
+        $query = User::query();
+    
+        if ($this->filterRole) {
+            $query->where('role', $this->filterRole);
+        }
+    
+        $users = $query->get();
+    
+        return view('livewire.admin.user-index', [
+            'users' => $users
+        ]);
     }
+    
 
     public function updatedFilterRole()
 {

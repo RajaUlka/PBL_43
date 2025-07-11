@@ -9,6 +9,7 @@ class LaporanIndex extends Component
 {
     public $editId = null;
     public $status = '';
+    public $filterStatus = '';
 
     public function startEdit($id)
     {
@@ -19,7 +20,6 @@ class LaporanIndex extends Component
 
     public function saveStatus()
     {
-        
         $laporan = Laporan::findOrFail($this->editId);
         $laporan->status = $this->status;
         $laporan->save();
@@ -34,8 +34,14 @@ class LaporanIndex extends Component
 
     public function render()
     {
+        $query = Laporan::query();
+
+        if ($this->filterStatus !== '') {
+            $query->where('status', $this->filterStatus);
+        }
+
         return view('livewire.admin.laporan-index', [
-            'laporans' => Laporan::all()
+            'laporans' => $query->get(),
         ]);
     }
 }

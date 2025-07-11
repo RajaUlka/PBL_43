@@ -3,6 +3,16 @@
 <div class="p-6 bg-white shadow-md rounded-lg">
     <h2 class="text-xl font-semibold mb-4">Daftar Laporan</h2>
 
+    <div class="mb-4 flex justify-end">
+        <label class="mr-2 font-semibold text-gray-700">Filter Status:</label>
+        <select wire:model.live="filterStatus" class="border px-4 py-2 rounded-lg">
+            <option value="">-- Semua --</option>
+            <option value="baru">Baru</option>
+            <option value="proses">Proses</option>
+            <option value="selesai">Selesai</option>
+        </select>
+    </div>
+
     <table class="min-w-full bg-white border border-gray-300">
         <thead>
         <tr class="bg-gray-100">
