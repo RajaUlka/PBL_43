@@ -145,7 +145,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="p-0">
+            <main class="p-6">
                 @yield('content')
             </main>
         </div>
