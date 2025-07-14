@@ -64,7 +64,7 @@ let chart = new Chart(ctx, {
         plugins: {
             title: {
                 display: true,
-                text: 'Grafik pH & Kekeruhan per Alat (6 Jam Terakhir)'
+                text: 'Grafik pH & Kekeruhan per Alat (24 Jam Terakhir)'
             },
             tooltip: {
                 callbacks: {

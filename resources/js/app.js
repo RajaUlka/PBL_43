@@ -1,6 +1,16 @@
 import './bootstrap';
 import Chart from 'chart.js/auto';
 import './public_dashboard';
+
+import Alpine from 'alpinejs';
+import Livewire from '../../vendor/livewire/livewire/dist/livewire.esm';
+
+
+window.Alpine = Alpine;
+window.Livewire = Livewire;
+
+Alpine.start();
+Livewire.start();
 let map;
 
 function initMap() {
